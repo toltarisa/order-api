@@ -1,6 +1,7 @@
 package com.isatoltar.order.service;
 
 import com.isatoltar.order.converter.OrderDtoConverter;
+import com.isatoltar.order.dto.OrderPageResponse;
 import com.isatoltar.order.dto.OrderRequest;
 import com.isatoltar.order.dto.OrderResponse;
 import com.isatoltar.order.enums.Crust;
@@ -8,12 +9,15 @@ import com.isatoltar.order.enums.Flavor;
 import com.isatoltar.order.enums.Size;
 import com.isatoltar.order.exception.BadRequestException;
 import com.isatoltar.order.exception.ResourceAlreadyExistsException;
+import com.isatoltar.order.exception.ResourceNotFoundException;
 import com.isatoltar.order.model.Order;
 import com.isatoltar.order.model.User;
 import com.isatoltar.order.repository.OrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,9 +39,9 @@ public class OrderService {
     public List<OrderResponse> createOrder(String username, List<OrderRequest> orderRequests) {
 
         /*
-         * Since we can get multiple orders in this endpoint, after validating orders, we can create a queue (rabbit mq, kafka etc.)
-         * and put each order in queue and process it asynchronously for better performance.
-         * For simplicity i will loop through each order and send request to pizzeria API
+         * Since we can get multiple orders in this endpoint, after validating orders,
+         * we can save orders to database via bulk save or asynchronous processing via @Async or some kind of queue
+         * For simplicity i will loop through each order and save order to database
          */
 
         validateTableStatus(orderRequests);
@@ -63,6 +67,38 @@ public class OrderService {
 
         return orders.stream()
                 .map(order -> orderDtoConverter.convert(orderRepository.save(order)))
+                .collect(Collectors.toList());
+    }
+
+    public OrderPageResponse listAllOrders(Pageable paging) {
+
+        Page<Order> orderPage = orderRepository.findAll(paging);
+        if (orderPage.isEmpty())
+            return new OrderPageResponse(List.of(), 0, 0L, 0);
+
+        List<OrderResponse> orders = orderPage.getContent()
+                .stream()
+                .map(orderDtoConverter::convert)
+                .collect(Collectors.toList());
+
+        return new OrderPageResponse(
+                orders,
+                orderPage.getNumber(),
+                orderPage.getTotalElements(),
+                orderPage.getTotalPages()
+        );
+    }
+
+    public List<OrderResponse> listOrdersOfUser(Integer userId) {
+
+        Boolean userExists = userService.doesUserExists(userId);
+        if(!userExists)
+            throw new ResourceNotFoundException("User with id = " + userId + " does not exists");
+
+        return orderRepository.getAllByUserId(userId)
+                .orElse(List.of())
+                .stream()
+                .map(orderDtoConverter::convert)
                 .collect(Collectors.toList());
     }
 

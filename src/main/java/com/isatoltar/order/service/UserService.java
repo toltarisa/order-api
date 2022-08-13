@@ -25,6 +25,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Boolean doesUserExists(Integer userId) {
+        return userRepository.existsById(userId);
+    }
+
     public User getUserById(Integer id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " does not exists"));
