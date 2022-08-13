@@ -12,7 +12,8 @@ public class OrderDtoConverter {
                 order.getId(),
                 order.getFlavor(),
                 order.getCrust(),
-                order.getSize()
+                order.getSize(),
+                order.getOrderType()
         );
     }
 }

@@ -16,4 +16,5 @@ public class OrderResponse {
     String flavor;
     String crust;
     String size;
+    String orderType;
 }

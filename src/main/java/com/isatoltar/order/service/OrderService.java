@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderService {
 
+    private final Integer DELIVERY_ORDER_CONSTRAINT = 100_000;
+
     final OrderRepository orderRepository;
     final OrderDtoConverter orderDtoConverter;
     final UserService userService;
@@ -45,15 +47,18 @@ public class OrderService {
 
         orderRequests.forEach(orderRequest -> {
             validateOrder(orderRequest);
-            orders.add(
-                    Order.builder()
-                            .flavor(orderRequest.getFlavor())
-                            .crust(orderRequest.getCrust())
-                            .size(orderRequest.getSize())
-                            .tableNo(orderRequest.getTableNo())
-                            .user(user)
-                            .build()
-            );
+            Order order = Order.builder()
+                    .flavor(orderRequest.getFlavor())
+                    .crust(orderRequest.getCrust())
+                    .size(orderRequest.getSize())
+                    .tableNo(orderRequest.getTableNo())
+                    .user(user)
+                    .build();
+
+            if (orderRequest.getTableNo() > DELIVERY_ORDER_CONSTRAINT)
+                order.setOrderType("DELIVERY");
+
+            orders.add(order);
         });
 
         return orders.stream()

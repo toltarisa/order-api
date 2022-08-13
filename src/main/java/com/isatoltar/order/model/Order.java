@@ -32,6 +32,9 @@ public class Order {
     @Column
     String size;
 
+    @Column(name = "order_type")
+    String orderType = "DINE-IN";
+
     @Column(name = "timestamp")
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
