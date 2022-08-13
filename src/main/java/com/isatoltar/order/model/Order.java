@@ -8,34 +8,37 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "users")
+@Table(name = "orders")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
     @Column
-    String name;
+    String flavor;
 
     @Column
-    String username;
+    String crust;
 
     @Column
-    String password;
+    String size;
 
-    @OneToMany(mappedBy = "user")
-    Set<Order> orders;
+    @Column(name = "timestamp")
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    Set<Privilege> privileges = new HashSet<>();
+    @Column(name = "table_no")
+    Integer tableNo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    User user;
 }

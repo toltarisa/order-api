@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -48,10 +50,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         .parseClaimsJws(token)
                         .getBody().getSubject();
 
+                List<String> privileges = (List<String>) Jwts.parser()
+                        .setSigningKey(secret)
+                        .parseClaimsJws(token)
+                        .getBody().get("privileges");
+
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userName,
                         null,
-                        List.of()
+                        privileges.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

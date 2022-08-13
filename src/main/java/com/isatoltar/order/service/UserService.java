@@ -1,83 +1,32 @@
 package com.isatoltar.order.service;
 
-import com.isatoltar.order.converter.RegisterDtoConverter;
-import com.isatoltar.order.dto.AuthRequest;
-import com.isatoltar.order.dto.AuthResponse;
-import com.isatoltar.order.dto.RegisterRequest;
-import com.isatoltar.order.dto.RegisterResponse;
-import com.isatoltar.order.exception.ResourceAlreadyExistsException;
+import com.isatoltar.order.exception.ResourceNotFoundException;
 import com.isatoltar.order.model.User;
 import com.isatoltar.order.repository.UserRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserService {
 
     final UserRepository userRepository;
-    final BCryptPasswordEncoder passwordEncoder;
-    final RegisterDtoConverter registerDtoConverter;
-    final AuthenticationManager authenticationManager;
-    final Environment environment;
 
-    public RegisterResponse registerUser(RegisterRequest registerRequest) {
-
-        String username = registerRequest.getUsername();
-        User user = getUserByUsername(username).orElse(null);
-        if (user != null)
-            throw new ResourceAlreadyExistsException(
-                    String.format("User with username = %s already exists", username)
-            );
-
-        user = User.builder()
-                .name(registerRequest.getName())
-                .username(username)
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .build();
-
-        return registerDtoConverter.convert(userRepository.save(user));
-    }
-
-    public AuthResponse authenticateUser(AuthRequest authRequest) {
-
-        String username = authRequest.getUsername();
-        String password = authRequest.getUsername();
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
-
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwtSecret = Objects.requireNonNull(environment.getProperty("jwt.secret"));
-
-        String accessToken = Jwts.builder()
-                .setSubject((username))
-                .setIssuedAt(new Date())
-                .setExpiration(Date.from(Instant.now().plus(2, ChronoUnit.HOURS)))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes(StandardCharsets.UTF_8))
-                .compact();
-
-        return new AuthResponse(accessToken);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " does not exists"));
     }
 }
