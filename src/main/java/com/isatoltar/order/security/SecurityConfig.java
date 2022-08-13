@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.security;
+package com.isatoltar.order.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

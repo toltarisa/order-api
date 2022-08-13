@@ -1,8 +1,7 @@
-package com.isatoltar.pizzeriaapi.security;
+package com.isatoltar.order.security;
 
-import com.isatoltar.pizzeriaapi.model.User;
-import com.isatoltar.pizzeriaapi.repository.UserRepository;
-import com.isatoltar.pizzeriaapi.service.UserService;
+import com.isatoltar.order.model.User;
+import com.isatoltar.order.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

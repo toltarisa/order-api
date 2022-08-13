@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.model;
+package com.isatoltar.order.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

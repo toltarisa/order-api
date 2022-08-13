@@ -1,10 +1,10 @@
-package com.isatoltar.pizzeriaapi;
+package com.isatoltar.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PizzeriaApiApplicationTests {
+class OrderApiApplicationTests {
 
 	@Test
 	void contextLoads() {

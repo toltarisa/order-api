@@ -1,13 +1,13 @@
-package com.isatoltar.pizzeriaapi.service;
+package com.isatoltar.order.service;
 
-import com.isatoltar.pizzeriaapi.converter.RegisterDtoConverter;
-import com.isatoltar.pizzeriaapi.dto.AuthRequest;
-import com.isatoltar.pizzeriaapi.dto.AuthResponse;
-import com.isatoltar.pizzeriaapi.dto.RegisterRequest;
-import com.isatoltar.pizzeriaapi.dto.RegisterResponse;
-import com.isatoltar.pizzeriaapi.exception.ResourceAlreadyExistsException;
-import com.isatoltar.pizzeriaapi.model.User;
-import com.isatoltar.pizzeriaapi.repository.UserRepository;
+import com.isatoltar.order.converter.RegisterDtoConverter;
+import com.isatoltar.order.dto.AuthRequest;
+import com.isatoltar.order.dto.AuthResponse;
+import com.isatoltar.order.dto.RegisterRequest;
+import com.isatoltar.order.dto.RegisterResponse;
+import com.isatoltar.order.exception.ResourceAlreadyExistsException;
+import com.isatoltar.order.model.User;
+import com.isatoltar.order.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;

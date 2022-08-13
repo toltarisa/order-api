@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.configuration;
+package com.isatoltar.order.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +18,15 @@ public class SwaggerConfig {
     public Docket api() {
 
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("Pizzeria Order API")
+                .title("Order API")
                 .version("1.0")
-                .description("REST-ful Pizza Order API for Pizzeria")
+                .description("REST-ful Order API for Pizzeria")
                 .build();
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.isatoltar.pizzeriaapi"))
+                .apis(RequestHandlerSelectors.basePackage("com.isatoltar.order"))
                 .paths(PathSelectors.any())
                 .build();
     }

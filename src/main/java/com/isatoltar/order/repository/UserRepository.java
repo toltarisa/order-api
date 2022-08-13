@@ -1,6 +1,6 @@
-package com.isatoltar.pizzeriaapi.repository;
+package com.isatoltar.order.repository;
 
-import com.isatoltar.pizzeriaapi.model.User;
+import com.isatoltar.order.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

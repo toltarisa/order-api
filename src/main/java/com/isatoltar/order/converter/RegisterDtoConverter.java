@@ -1,7 +1,7 @@
-package com.isatoltar.pizzeriaapi.converter;
+package com.isatoltar.order.converter;
 
-import com.isatoltar.pizzeriaapi.dto.RegisterResponse;
-import com.isatoltar.pizzeriaapi.model.User;
+import com.isatoltar.order.dto.RegisterResponse;
+import com.isatoltar.order.model.User;
 import org.springframework.stereotype.Component;
 
 @Component

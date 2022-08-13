@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.isatoltar</groupId>
-	<artifactId>pizzeria-api</artifactId>
+	<artifactId>order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pizzeria-api</name>
-	<description>Pizzeria API Project</description>
+	<name>order-api</name>
+	<description>Order API Project</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

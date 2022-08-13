@@ -1,10 +1,10 @@
-package com.isatoltar.pizzeriaapi.controller;
+package com.isatoltar.order.controller;
 
-import com.isatoltar.pizzeriaapi.dto.AuthRequest;
-import com.isatoltar.pizzeriaapi.dto.AuthResponse;
-import com.isatoltar.pizzeriaapi.dto.RegisterRequest;
-import com.isatoltar.pizzeriaapi.dto.RegisterResponse;
-import com.isatoltar.pizzeriaapi.service.UserService;
+import com.isatoltar.order.dto.AuthRequest;
+import com.isatoltar.order.dto.AuthResponse;
+import com.isatoltar.order.dto.RegisterRequest;
+import com.isatoltar.order.dto.RegisterResponse;
+import com.isatoltar.order.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

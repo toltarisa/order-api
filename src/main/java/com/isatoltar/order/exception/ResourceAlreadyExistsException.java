@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.exception;
+package com.isatoltar.order.exception;
 
 public class ResourceAlreadyExistsException extends RuntimeException {
 

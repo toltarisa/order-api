@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.dto;
+package com.isatoltar.order.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

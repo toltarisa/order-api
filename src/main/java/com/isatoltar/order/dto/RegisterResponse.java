@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.dto;
+package com.isatoltar.order.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthResponse {
-    String accessToken;
+public class RegisterResponse {
+    Integer id;
+    String name;
+    String username;
 }

@@ -1,9 +1,8 @@
-package com.isatoltar.pizzeriaapi.security;
+package com.isatoltar.order.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package com.isatoltar.pizzeriaapi.configuration;
+package com.isatoltar.order.configuration;
 
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
