@@ -6,6 +6,7 @@ import com.isatoltar.order.dto.OrderRequest;
 import com.isatoltar.order.dto.OrderResponse;
 import com.isatoltar.order.enums.Crust;
 import com.isatoltar.order.enums.Flavor;
+import com.isatoltar.order.enums.OrderStatus;
 import com.isatoltar.order.enums.Size;
 import com.isatoltar.order.exception.BadRequestException;
 import com.isatoltar.order.exception.ResourceAlreadyExistsException;
@@ -138,5 +139,22 @@ public class OrderService {
     private List<Order> getAllOrdersByTableNumbers(Set<Integer> tableNumbers) {
         return orderRepository.findAllByTableNoIn(tableNumbers)
                 .orElse(List.of());
+    }
+
+    public void cancelOrder(Integer orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id = " + orderId + " does not exists"));
+
+        order.setOrderStatus(OrderStatus.CANCELLED.getValue());
+
+        orderRepository.save(order);
+    }
+
+    public void deleteOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id = " + orderId + " does not exists"));
+
+        orderRepository.delete(order);
     }
 }

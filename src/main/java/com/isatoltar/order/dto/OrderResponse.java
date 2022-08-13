@@ -17,4 +17,5 @@ public class OrderResponse {
     String crust;
     String size;
     String orderType;
+    String orderStatus;
 }

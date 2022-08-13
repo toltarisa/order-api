@@ -1,5 +1,6 @@
 package com.isatoltar.order.model;
 
+import com.isatoltar.order.enums.OrderStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,10 +33,16 @@ public class Order {
     @Column
     String size;
 
-    @Column(name = "order_type")
+    @Builder.Default
+    @Column(name = "order_type", nullable = false)
     String orderType = "DINE-IN";
 
-    @Column(name = "timestamp")
+    @Builder.Default
+    @Column(name = "order_status", nullable = false)
+    Integer orderStatus = OrderStatus.CREATED.getValue();
+
+    @Builder.Default
+    @Column(name = "timestamp", nullable = false)
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "table_no")

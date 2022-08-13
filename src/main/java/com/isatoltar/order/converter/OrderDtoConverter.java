@@ -1,6 +1,7 @@
 package com.isatoltar.order.converter;
 
 import com.isatoltar.order.dto.OrderResponse;
+import com.isatoltar.order.enums.OrderStatus;
 import com.isatoltar.order.model.Order;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,8 @@ public class OrderDtoConverter {
                 order.getFlavor(),
                 order.getCrust(),
                 order.getSize(),
-                order.getOrderType()
+                order.getOrderType(),
+                OrderStatus.getNameFromValue(order.getOrderStatus())
         );
     }
 }
