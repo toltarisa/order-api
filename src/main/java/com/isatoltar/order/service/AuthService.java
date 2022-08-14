@@ -34,18 +34,18 @@ import java.util.stream.Collectors;
 public class AuthService {
 
     final AuthenticationManager authenticationManager;
-    final Environment environment;
     final BCryptPasswordEncoder passwordEncoder;
+    final Environment environment;
 
-    final UserService userService;
     final RegisterDtoConverter registerDtoConverter;
+    final UserService userService;
 
     public RegisterResponse registerUser(RegisterRequest registerRequest) {
 
         String username = registerRequest.getUsername();
-        userService.getUserByUsername(username).ifPresent((user) -> {
+        userService.getUserByUsername(username).ifPresent((existingUser) -> {
             throw new ResourceAlreadyExistsException(
-                    String.format("User with username = %s already exists", username)
+                    String.format("User with username = %s already exists", existingUser.getUsername())
             );
         });
 

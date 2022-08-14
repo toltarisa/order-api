@@ -1,5 +1,4 @@
-package com.isatoltar.order.dto;
-
+package com.isatoltar.order.exception.payload;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,12 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderResponse {
-    Integer id;
-    String flavor;
-    String crust;
-    String size;
-    Integer tableNo;
-    String orderType;
-    String orderStatus;
+public class ExceptionResponse {
+    Integer status;
+    String message;
+    String path;
 }

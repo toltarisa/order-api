@@ -112,7 +112,7 @@ public class OrderService {
         if (!ordersByTableNumbers.isEmpty()) {
             throw new ResourceAlreadyExistsException(
                     String.format(
-                            "Orders for table numbers %s already exists",
+                            "Table numbers %s are already ordered",
                             ordersByTableNumbers.stream()
                                     .map(order -> String.valueOf(order.getTableNo()))
                                     .collect(Collectors.joining(","))

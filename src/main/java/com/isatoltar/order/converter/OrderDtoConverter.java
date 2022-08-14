@@ -14,6 +14,7 @@ public class OrderDtoConverter {
                 order.getFlavor(),
                 order.getCrust(),
                 order.getSize(),
+                order.getTableNo(),
                 order.getOrderType(),
                 OrderStatus.getNameFromValue(order.getOrderStatus())
         );
