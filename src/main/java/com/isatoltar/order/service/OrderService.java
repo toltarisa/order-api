@@ -21,6 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +36,7 @@ public class OrderService {
 
     private final Integer DELIVERY_ORDER_CONSTRAINT = 100_000;
 
+    final Clock clock;
     final OrderRepository orderRepository;
     final OrderDtoConverter orderDtoConverter;
     final UserService userService;
@@ -57,6 +61,7 @@ public class OrderService {
                     .crust(orderRequest.getCrust())
                     .size(orderRequest.getSize())
                     .tableNo(orderRequest.getTableNo())
+                    .timestamp(Timestamp.from(Instant.now(clock)))
                     .user(user)
                     .build();
 
@@ -108,7 +113,7 @@ public class OrderService {
                 .map(OrderRequest::getTableNo)
                 .collect(Collectors.toSet());
 
-        List<Order> ordersByTableNumbers = getAllOrdersByTableNumbers(tableNumbers);
+        List<Order> ordersByTableNumbers = orderRepository.findAllByTableNoIn(tableNumbers).orElse(List.of());;
         if (!ordersByTableNumbers.isEmpty()) {
             throw new ResourceAlreadyExistsException(
                     String.format(
@@ -134,11 +139,6 @@ public class OrderService {
 
         if (!Size.isValid(size))
             throw new BadRequestException("Size = " + size + " is not valid!");
-    }
-
-    private List<Order> getAllOrdersByTableNumbers(Set<Integer> tableNumbers) {
-        return orderRepository.findAllByTableNoIn(tableNumbers)
-                .orElse(List.of());
     }
 
     public void cancelOrder(Integer orderId) {

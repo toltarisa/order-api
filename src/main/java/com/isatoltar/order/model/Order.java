@@ -1,11 +1,7 @@
 package com.isatoltar.order.model;
 
 import com.isatoltar.order.enums.OrderStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -18,6 +14,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Order {
 
     @Id
@@ -41,9 +38,8 @@ public class Order {
     @Column(name = "order_status", nullable = false)
     Integer orderStatus = OrderStatus.CREATED.getValue();
 
-    @Builder.Default
     @Column(name = "timestamp", nullable = false)
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    Timestamp timestamp;
 
     @Column(name = "table_no")
     Integer tableNo;

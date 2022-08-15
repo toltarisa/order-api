@@ -1,10 +1,6 @@
 package com.isatoltar.order.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -18,6 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
 
     @Id
@@ -38,4 +35,11 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     Set<Privilege> privileges = new HashSet<>();
+
+    public User(Integer id, String name, String username, String password) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
 }
