@@ -8,8 +8,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +27,11 @@ public class GlobalExceptionHandler {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         List<CustomValidationExceptionResponse.ValidationError> customFieldErrors = new ArrayList<>();
 
-        for (FieldError error : fieldErrors) {
-            String field = error.getField();
-            String message = error.getDefaultMessage();
+        fieldErrors.forEach(fieldError -> {
+            String field = fieldError.getField();
+            String message = fieldError.getDefaultMessage();
             customFieldErrors.add(new CustomValidationExceptionResponse.ValidationError(field, message));
-        }
+        });
 
         CustomValidationExceptionResponse customValidationErrorResponse = new CustomValidationExceptionResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -79,5 +83,40 @@ public class GlobalExceptionHandler {
                 new ExceptionResponse(HttpStatus.CONFLICT.value(), ex.getMessage(), request.getRequestURI()),
                 HttpStatus.CONFLICT
         );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ExceptionResponse> handleTypeMismatchException(MethodArgumentTypeMismatchException ex,
+                                                                         HttpServletRequest request) {
+
+
+        return new ResponseEntity<>(
+                new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
+
+        List<CustomValidationExceptionResponse.ValidationError> customFieldErrors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            customFieldErrors.add(
+                    new CustomValidationExceptionResponse.ValidationError(
+                            violation.getPropertyPath().toString(),
+                            violation.getMessage()
+                    )
+            );
+        }
+
+        CustomValidationExceptionResponse customValidationErrorResponse = new CustomValidationExceptionResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Request Contains inappropriate parameters",
+                request.getRequestURI()
+        );
+        customValidationErrorResponse.setErrors(customFieldErrors);
+
+        return new ResponseEntity<>(customValidationErrorResponse, HttpStatus.BAD_REQUEST);
     }
 }

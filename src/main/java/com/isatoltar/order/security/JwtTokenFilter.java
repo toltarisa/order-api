@@ -63,9 +63,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response);
-            } catch (Exception exception) {
+            } catch (Exception ex) {
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), Map.of("message", exception.getMessage()));
+                new ObjectMapper().writeValue(response.getOutputStream(), Map.of("message", ex.getMessage()));
             }
         } else
             filterChain.doFilter(request, response);
