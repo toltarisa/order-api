@@ -113,7 +113,7 @@ public class OrderService {
                 .map(OrderRequest::getTableNo)
                 .collect(Collectors.toSet());
 
-        List<Order> ordersByTableNumbers = orderRepository.findAllByTableNoIn(tableNumbers).orElse(List.of());;
+        List<Order> ordersByTableNumbers = orderRepository.findAllByTableNoIn(tableNumbers).orElse(List.of());
         if (!ordersByTableNumbers.isEmpty()) {
             throw new ResourceAlreadyExistsException(
                     String.format(
