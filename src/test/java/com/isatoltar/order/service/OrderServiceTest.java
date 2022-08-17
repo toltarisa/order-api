@@ -11,6 +11,8 @@ import com.isatoltar.order.exception.ResourceNotFoundException;
 import com.isatoltar.order.model.Order;
 import com.isatoltar.order.model.User;
 import com.isatoltar.order.repository.OrderRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,32 +40,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 class OrderServiceTest {
 
-    @Mock
-    private Clock clock;
+    @Mock Clock clock;
+    @Mock OrderRepository orderRepository;
+    @Mock OrderDtoConverter orderDtoConverter;
+    @Mock UserService userService;
 
-    @Mock
-    private OrderRepository orderRepository;
+    OrderService orderService;
 
-    @Mock
-    private OrderDtoConverter orderDtoConverter;
-
-    @Mock
-    private UserService userService;
-
-    private OrderService orderService;
-
-    private static ZonedDateTime NOW = ZonedDateTime.of(
-            2022,
-            8,
-            16,
-            23,
-            7,
-            35,
-            0,
-            ZoneId.systemDefault()
-    );
+    static ZonedDateTime NOW = ZonedDateTime.of(2022, 8, 16, 23, 7, 35, 0, ZoneId.systemDefault());
 
     @BeforeEach
     void setUp() {
