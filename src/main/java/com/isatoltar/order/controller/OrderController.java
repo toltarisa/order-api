@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,8 @@ public class OrderController {
                 .body(orderService.createOrder(principal.getName(), orders));
     }
 
+    //:TODO I implemented privilege based access control for listing all orders, but for simplicity  it is not going to be enabled
+    //@PreAuthorize("hasAuthority('list_all_orders')")
     @ApiOperation(value = "List All Orders", notes = "List All Orders with Pagination")
     @GetMapping
     public ResponseEntity<OrderPageResponse> listAllOrders(@RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer page,
