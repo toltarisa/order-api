@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  order-api-server:
+    container_name: order-api-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: order-api-server:latest
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: ${DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-db
+    restart: always
+    .env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQLDB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQLDB_NAME}
+      MYSQL_ROOT_USER: ${MYSQLDB_PASSWORD}
+    ports:
+    - 3307:3306
