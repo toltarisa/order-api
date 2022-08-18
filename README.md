@@ -37,6 +37,11 @@ DELET /api/orders/:orderId - Deletes an order
 - Maven
 - Docker
 
+##### To Run Tests
+```
+mvn test
+```
+
 ##### Run & Build
 ```
 $ cd order-api
