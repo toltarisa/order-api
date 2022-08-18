@@ -13,17 +13,22 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USER}
       SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
     depends_on:
-      - mysql-db
+      order-db:
+        condition: service_healthy
 
-  mysql-db:
-    image: mysql:latest
-    container_name: mysql-db
+  order-db:
+    image: mysql:5.7
+    container_name: order-db
     restart: always
-    .env_file:
+    env_file:
       - .env
     environment:
       MYSQL_DATABASE: ${MYSQLDB_NAME}
       MYSQL_ROOT_PASSWORD: ${MYSQLDB_NAME}
       MYSQL_ROOT_USER: ${MYSQLDB_PASSWORD}
     ports:
-    - 3307:3306
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
