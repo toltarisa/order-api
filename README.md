@@ -8,16 +8,15 @@ Simple Ordering Backend API application with JWT Security
 - Authentication API
 - Order API
 
-```
-POST /api/register - Registers new user
-POST /api/auth - Logs a new user in and returns Access Token
-
-POST /api/orders - Creates single or multiple orders
-GET /api/orders - List all orders
-GET /api/orders/user?userId - List all orders of User
-PATCH /api/orders/:orderId - Cancel an order
-DELET /api/orders/:orderId - Deletes an order
-```
+| Method   | Path   | Description   |   
+|---|---|---|
+| POST   | /api/register   | Registers new user   |   
+| POST  | /api/auth  | Logs a new user in and returns Access Token   |   
+| POST   | /api/orders   | Creates single or multiple orders   |
+| GET   | /api/orders   | List all orders   |  
+| GET   | /api/orders/user?userId  | List all orders of User   |  
+| PATCH   | /api/orders/:orderId  | Cancel an order   |  
+| DELETE  | /api/orders/:orderId  | Deletes an order   |     
 
 ##### Tech Stack
 - Java 11
