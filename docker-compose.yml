@@ -8,26 +8,33 @@ services:
     image: order-api-server:latest
     env_file:
       - .env
+    ports:
+    - "8082:8082"
     environment:
       SPRING_DATASOURCE_URL: ${DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USER}
       SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      SERVER_PORT: 8082
     depends_on:
       order-db:
         condition: service_healthy
 
   order-db:
-    image: mysql:5.7
+    image: mysql:latest
     container_name: order-db
     restart: always
     env_file:
       - .env
     environment:
       MYSQL_DATABASE: ${MYSQLDB_NAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQLDB_NAME}
-      MYSQL_ROOT_USER: ${MYSQLDB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQLDB_PASSWORD}
+      MYSQL_USER: ${MYSQLDB_USER}
+      MYSQL_PASSWORD: ${MYSQLDB_PASSWORD}
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - /db:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3307:3307"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
