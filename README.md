@@ -24,8 +24,8 @@ DELET /api/orders/:orderId - Deletes an order
 - Spring Boot
 - Spring Data JPA
 - Spring Security
-- Restful API
-- MySQL:5.7
+- REST-ful API
+- MySQL
 - Docker
 - Docker compose
 - Swagger
