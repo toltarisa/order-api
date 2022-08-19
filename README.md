@@ -52,3 +52,8 @@ $ docker-compose up -d
 Note: Rename .env.dev file to .env and replace existing fields 
 with your informations before executing docker-compose
 ```
+
+```
+Application Port: 8082
+MySQL DB Port: 3307
+```
