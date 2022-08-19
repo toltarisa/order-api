@@ -56,3 +56,8 @@ with your informations before executing docker-compose
 Application Port: 8082
 MySQL DB Port: 3307
 ```
+
+##### Swagger UI
+```
+http://localhost:8082/swagger-ui.html#/
+```
