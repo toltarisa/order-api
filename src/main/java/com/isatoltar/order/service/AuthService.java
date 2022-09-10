@@ -61,7 +61,7 @@ public class AuthService {
     public AuthResponse authenticateUser(AuthRequest authRequest) {
 
         String username = authRequest.getUsername();
-        String password = authRequest.getUsername();
+        String password = authRequest.getPassword();
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
